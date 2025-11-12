@@ -1,5 +1,7 @@
 package com.restaurant.menu;
 
+import com.restaurant.menu.nonveg.Pizza;
+
 public class VegMenuFactory implements MenuFactory {
     @Override
     public MenuItem createMainDish() {

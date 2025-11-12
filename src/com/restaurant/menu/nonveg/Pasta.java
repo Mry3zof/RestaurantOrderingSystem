@@ -1,4 +1,6 @@
-package com.restaurant.menu;
+package com.restaurant.menu.nonveg;
+
+import com.restaurant.menu.MenuItem;
 
 public class Pasta extends MenuItem {
     public Pasta() {

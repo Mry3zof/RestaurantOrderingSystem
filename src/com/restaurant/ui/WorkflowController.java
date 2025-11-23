@@ -13,7 +13,7 @@ import com.restaurant.payment.*;
 
 public class WorkflowController {
     public void start() {
-        System.out.println("🍽️ Welcome to the Restaurant Ordering System!");
+        System.out.println("Welcome to the Restaurant Ordering System!");
         OrderBuilder order = new OrderBuilder();
 
         boolean ordering = true;
@@ -94,7 +94,7 @@ public class WorkflowController {
                 order.addItem(item);
                 System.out.println(item.getDescription() + " added!");
 
-                // 🧾 Show Live Cart Summary
+                // Show Live Cart Summary
                 System.out.println("\nCurrent Order Summary:");
                 order.getItems().forEach(i -> System.out.println(" - " + i.getDescription() + " : " + i.getCost() + " LE"));
                 System.out.println("Subtotal so far: " + order.calculateSubtotal() + " LE");
@@ -108,12 +108,15 @@ public class WorkflowController {
         System.out.println("\nSelect Discount Type:");
         System.out.println("1. No Discount");
         System.out.println("2. Holiday Discount (15%)");
+        System.out.println("3. Combo Discount (Adult + Kids = 15%)");
 
         int discountChoice = InputHelper.readInt("Enter choice: ");
         DiscountStrategy discount = switch (discountChoice) {
             case 2 -> new HolidayDiscount();
+            case 3 -> new ComboMealDiscount(order);
             default -> new NoDiscount();
         };
+
 
         // Choose Order Type (Now using ENUM)
         System.out.println("\nOrder Type:");

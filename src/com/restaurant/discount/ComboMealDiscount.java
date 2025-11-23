@@ -31,8 +31,6 @@ public class ComboMealDiscount implements DiscountStrategy {
             return subtotal * 0.85; // 15% discount
         }
 
-        System.out.println("Sorry...");
-        System.out.println("Your meal doesn't meet the requirements of this discount!");
         return subtotal; // no discount
     }
 }

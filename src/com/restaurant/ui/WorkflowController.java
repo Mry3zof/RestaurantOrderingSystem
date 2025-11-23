@@ -101,21 +101,28 @@ public class WorkflowController {
             }
         }
 
-        double subtotal = order.calculateSubtotal();
-        System.out.println("\nSubtotal: " + subtotal + " LE");
+        DiscountStrategy discount;
 
-        // Choose Discount
-        System.out.println("\nSelect Discount Type:");
-        System.out.println("1. No Discount");
-        System.out.println("2. Holiday Discount (15%)");
-        System.out.println("3. Combo Discount (Adult + Kids = 15%)");
+        // Combo Discount
+        ComboMealDiscount combo = new ComboMealDiscount(order);
+        double comboDiscounted = combo.applyDiscount(order.calculateSubtotal());
+        if (comboDiscounted != order.calculateSubtotal()) {
+            discount = combo;
+        }
+        // Pizza Discount
+        else {
+            PizzaDiscount pizzaDiscount = new PizzaDiscount(order);
+            double pizzaDiscounted = pizzaDiscount.applyDiscount(order.calculateSubtotal());
+            if (pizzaDiscounted != order.calculateSubtotal()) {
+                discount = pizzaDiscount;
+            }
+            // No Discount
+            else {
+                discount = new NoDiscount();
+            }
+        }
 
-        int discountChoice = InputHelper.readInt("Enter choice: ");
-        DiscountStrategy discount = switch (discountChoice) {
-            case 2 -> new HolidayDiscount();
-            case 3 -> new ComboMealDiscount(order);
-            default -> new NoDiscount();
-        };
+
 
 
         // Choose Order Type (Now using ENUM)
@@ -167,7 +174,7 @@ public class WorkflowController {
 
         // Checkout
         BillingSystem billing = new BillingSystem(payment, discount);
-        billing.checkout(subtotal);
+        billing.checkout(order.calculateSubtotal());
 
         System.out.println("\nThank you for ordering!");
     }
